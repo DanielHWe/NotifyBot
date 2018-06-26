@@ -1,0 +1,44 @@
+﻿@model WhereIsMyBikeBotApp.Models.LogFile
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+
+
+<table class="table">
+    <tr>
+        <th>Level</th>
+        <th>Time</th>
+        <th>Caller</th>
+        <th>Message</th>
+    </tr>
+
+    @foreach (var item in Model.Lines)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(i => item.Level)
+        </td>
+        <td>
+            @Html.DisplayFor(i => item.Timestamp)
+        </td>
+        <td>
+            @Html.DisplayFor(i => item.Caller)
+        </td>
+        <td>
+            @Html.DisplayFor(i => item.Message)
+        </td>
+    </tr>
+        if (!String.IsNullOrEmpty(item.Error))
+        {
+            <tr>
+                <td colspan="3">
+                    @Html.DisplayFor(i => item.Error)
+                </td>
+            </tr>
+                }
+                }
+
+        </table>
