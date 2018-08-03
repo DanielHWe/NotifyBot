@@ -6,4 +6,8 @@
 /SampleBotImpl
 /NotifyBotApp/obj
 /NotifyBotApp/bin
+/NotifyBot.Interfaces/obj
+/NotifyBot.Interfaces/bin
+/FindMyBikeBotImpl/obj
+/FindMyBikeBotImpl/bin
 /NotifyBotApp/Properties/PublishProfiles/*
