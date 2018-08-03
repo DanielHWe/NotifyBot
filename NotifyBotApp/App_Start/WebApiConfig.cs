@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using WhereIsMyBikeBotApp.Models;
+using NotifyBotApp.Models;
 
-namespace WhereIsMyBikeBotApp
+namespace NotifyBotApp
 {
     public static class WebApiConfig
     {

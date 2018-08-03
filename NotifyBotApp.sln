@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifyBot.Interfaces", "Not
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleBotImpl", "SampleBotImpl\SampleBotImpl.csproj", "{5D7BAE1F-6E49-430C-A1DE-71EA414AFD91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindMyBikeBotImpl", "FindMyBikeBotImpl\FindMyBikeBotImpl.csproj", "{AB7E7FBB-708F-4B22-9BAE-5856B15F2088}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{5D7BAE1F-6E49-430C-A1DE-71EA414AFD91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D7BAE1F-6E49-430C-A1DE-71EA414AFD91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D7BAE1F-6E49-430C-A1DE-71EA414AFD91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB7E7FBB-708F-4B22-9BAE-5856B15F2088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB7E7FBB-708F-4B22-9BAE-5856B15F2088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB7E7FBB-708F-4B22-9BAE-5856B15F2088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB7E7FBB-708F-4B22-9BAE-5856B15F2088}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

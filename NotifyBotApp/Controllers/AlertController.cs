@@ -4,14 +4,14 @@ using System.Diagnostics;
 using System.Web.Http;
 using System.Web.Http.Filters;
 using System.Web.Routing;
-using WhereIsMyBikeBotApp.Models;
+using NotifyBotApp.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System.Threading.Tasks;
 using Serilog;
 
-namespace WhereIsMyBikeBotApp.Controllers
+namespace NotifyBotApp.Controllers
 {
     public class AlertController: ApiController
     {
@@ -21,9 +21,7 @@ namespace WhereIsMyBikeBotApp.Controllers
         {
             try
             {
-                var result = new JObject();
-
-                await NotificationManager.NotifyAsync(text, result);
+                var result = await NotificationManager.NotifyAsync(text);
 
                 /*foreach (QueueMessage conversationReference in RootDialog.ResumptionCookieList)
                 {
@@ -66,7 +64,7 @@ namespace WhereIsMyBikeBotApp.Controllers
 
                 
                
-                return result;
+                return JObject.FromObject(result);
             }
             catch (Exception ex)
             {

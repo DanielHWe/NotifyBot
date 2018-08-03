@@ -1,0 +1,70 @@
+﻿@model System.Collections.Generic.IEnumerable<NotifyBotApp.Models.BotUserSession>
+
+@{
+    ViewBag.Title = "Clients";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Clients</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.toId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.toName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fromId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fromName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.channelId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.conversationId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.serviceUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.active)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.toId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.toName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fromId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fromName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.channelId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.conversationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.serviceUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.active)
+            </td>
+        </tr>
+    }
+
+</table>
+

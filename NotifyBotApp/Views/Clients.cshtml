@@ -1,0 +1,111 @@
+﻿@model IEnumerable<NotifyBotApp.Models.BotUserSession>
+
+@{
+    ViewBag.Title = "Clients";
+}
+
+<h2>Clients</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PartitionKey)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RowKey)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Timestamp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ETag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisableCompiledSerializers)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisablePropertyResolverCache)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.toId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.toName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fromId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fromName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.channelId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.conversationId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.serviceUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartitionKey)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RowKey)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Timestamp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ETag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisableCompiledSerializers)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisablePropertyResolverCache)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.toId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.toName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fromId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fromName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.channelId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.conversationId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.serviceUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

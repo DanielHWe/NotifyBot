@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace WhereIsMyBikeBotApp.Areas.HelpPage.ModelDescriptions
+namespace NotifyBotApp.Areas.HelpPage.ModelDescriptions
 {
     internal static class ModelNameHelper
     {

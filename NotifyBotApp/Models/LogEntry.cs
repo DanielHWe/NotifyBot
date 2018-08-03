@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WhereIsMyBikeBotApp.Models
+namespace NotifyBotApp.Models
 {
     public class LogEntry
     {
@@ -12,5 +12,18 @@ namespace WhereIsMyBikeBotApp.Models
         public string Caller { get; set; }
         public string Error { get; set; }
         public string Level { get; set; }
+
+        public string BgColor
+        {
+            get
+            {
+                switch (Level)
+                {
+                        default: return "black";
+                        case "Warning": return "orange";
+                        case "Error": return "red";
+                }
+            }
+        }
     }
 }

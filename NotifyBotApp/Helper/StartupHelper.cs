@@ -8,26 +8,38 @@ using System.Linq;
 using System.Web;
 using NotifyBot.Interfaces;
 using Serilog;
-using WhereIsMyBikeBotApp.DataAccess;
+using NotifyBotApp.DataAccess;
 
-namespace WhereIsMyBikeBotApp.Helper
+namespace NotifyBotApp.Helper
 {
     internal class StartupHelper
     {
         [ImportMany(typeof(INotifyBotModule))]
         INotifyBotModule[] _modules;
 
+        public static INotifyBotModule Module { get; private set; }
+        public static IDBAccess DbAccess { get; private set; }
+
         internal void PerformStartUp()
         {
             try
             {
-                var module = GetModule();
+                Log.Debug("Startup startet");
+                Module = GetModule();
+                Log.Debug("Startup for " + Module.GetType().Name);
 
-                ConfigurationManager.AppSettings.Set("MicrosoftAppId", module.Settings.MicrosoftAppId);
-                ConfigurationManager.AppSettings.Set("MicrosoftAppPassword", module.Settings.MicrosoftAppPassword);
-                ConfigurationManager.AppSettings.Set("BotId", module.Settings.BotId);
+                ConfigurationManager.AppSettings.Set("MicrosoftAppId", Module.Settings.MicrosoftAppId);
+                ConfigurationManager.AppSettings.Set("MicrosoftAppPassword", Module.Settings.MicrosoftAppPassword);
+                ConfigurationManager.AppSettings.Set("BotId", Module.Settings.BotId);
 
-                DBAccess.ConnectionString = module.Settings.MongoDbConnectionString;
+                StartupHelper.DbAccess = new DBAccess();
+                StartupHelper.DbAccess.ConnectionString = Module.Settings.MongoDbConnectionString;
+                Log.Debug("Startup done - Settings online for " + Module.GetType().Name);
+
+                if (!ConfigurationManager.AppSettings.Get("MicrosoftAppId").Equals(Module.Settings.MicrosoftAppId))
+                {
+                    throw new Exception("AppSettings not saved - startup failed");
+                }
             }
             catch (Exception ex)
             {
@@ -42,6 +54,18 @@ namespace WhereIsMyBikeBotApp.Helper
             container.ComposeParts(this);
 
             if (_modules == null || _modules.Length == 0) throw new OperationCanceledException("No implementation of INotifyBotModule was found in " + catalog.FullPath + ".");
+
+            var defaultBotId = ConfigurationManager.AppSettings["DefaultBotId"];
+            if (!String.IsNullOrEmpty(defaultBotId))
+            {
+                foreach (var module in _modules)
+                {
+                    if (module.Settings.BotId.Equals(defaultBotId))
+                    {
+                        return module;
+                    }
+                }
+            }
 
             return _modules[0];
         }

@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using WhereIsMyBikeBotApp.Areas.HelpPage.ModelDescriptions;
+using NotifyBotApp.Areas.HelpPage.ModelDescriptions;
 
-namespace WhereIsMyBikeBotApp.Areas.HelpPage.Models
+namespace NotifyBotApp.Areas.HelpPage.Models
 {
     /// <summary>
     /// The model that represents an API displayed on the help page.

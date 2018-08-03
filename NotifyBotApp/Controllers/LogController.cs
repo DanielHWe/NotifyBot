@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using WhereIsMyBikeBotApp.Models;
+using NotifyBotApp.Models;
 using System.Web.Http;
 using Newtonsoft.Json.Linq;
-using WhereIsMyBikeBotApp.Helper;
+using NotifyBotApp.Helper;
 
-namespace WhereIsMyBikeBotApp.Controllers
+namespace NotifyBotApp.Controllers
 {
     public class LogController : ApiController
     {

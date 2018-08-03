@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WhereIsMyBikeBotApp.App_Start
+namespace NotifyBotApp.App_Start
 {
 	public class FilterConfig
 	{

@@ -1,4 +1,4 @@
-﻿@model WhereIsMyBikeBotApp.Models.LogFile
+﻿@model NotifyBotApp.Models.LogFile
 
 @{
     ViewBag.Title = "View";
@@ -18,7 +18,7 @@
     @foreach (var item in Model.Lines)
     {
     <tr>
-        <td>
+        <td color="@item.BgColor">
             @Html.DisplayFor(i => item.Level)
         </td>
         <td>
@@ -34,7 +34,7 @@
         if (!String.IsNullOrEmpty(item.Error))
         {
             <tr>
-                <td colspan="3">
+                <td colspan="4">
                     @Html.DisplayFor(i => item.Error)
                 </td>
             </tr>

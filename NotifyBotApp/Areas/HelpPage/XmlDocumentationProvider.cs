@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Xml.XPath;
-using WhereIsMyBikeBotApp.Areas.HelpPage.ModelDescriptions;
+using NotifyBotApp.Areas.HelpPage.ModelDescriptions;
 
-namespace WhereIsMyBikeBotApp.Areas.HelpPage
+namespace NotifyBotApp.Areas.HelpPage
 {
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.

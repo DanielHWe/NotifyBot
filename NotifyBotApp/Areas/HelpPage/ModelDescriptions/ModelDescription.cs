@@ -1,6 +1,6 @@
 using System;
 
-namespace WhereIsMyBikeBotApp.Areas.HelpPage.ModelDescriptions
+namespace NotifyBotApp.Areas.HelpPage.ModelDescriptions
 {
     /// <summary>
     /// Describes a type model.

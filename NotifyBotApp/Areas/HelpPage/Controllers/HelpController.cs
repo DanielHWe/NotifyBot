@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using WhereIsMyBikeBotApp.Areas.HelpPage.ModelDescriptions;
-using WhereIsMyBikeBotApp.Areas.HelpPage.Models;
+using NotifyBotApp.Areas.HelpPage.ModelDescriptions;
+using NotifyBotApp.Areas.HelpPage.Models;
 
-namespace WhereIsMyBikeBotApp.Areas.HelpPage.Controllers
+namespace NotifyBotApp.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.

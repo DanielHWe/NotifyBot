@@ -6,10 +6,10 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using WhereIsMyBikeBotApp.App_Start;
-using WhereIsMyBikeBotApp.Helper;
+using NotifyBotApp.App_Start;
+using NotifyBotApp.Helper;
 
-namespace WhereIsMyBikeBotApp
+namespace NotifyBotApp
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

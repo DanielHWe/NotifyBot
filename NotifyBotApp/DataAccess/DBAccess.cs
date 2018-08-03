@@ -1,25 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Authentication;
 using MongoDB.Driver;
-using WhereIsMyBikeBotApp.Models;
+using NotifyBot.Interfaces;
+using Serilog;
+using NotifyBotApp.Models;
 
-namespace WhereIsMyBikeBotApp.DataAccess
+namespace NotifyBotApp.DataAccess
 {
-    public static class DBAccess
+    public class DBAccess : IDBAccess
     {
-        private static string _connectionString;
+        private string _connectionString;
 
-        internal static string ConnectionString
+        public string ConnectionString
         {
             get => _connectionString;
             set => _connectionString = value;
         }
 
-        private static MongoClient GetMongoClient()
+        public MongoClient GetMongoClient()
         {
             MongoClientSettings settings = MongoClientSettings.FromUrl(
                 new MongoUrl(_connectionString)
-    );
+            );
 
             settings.SslSettings = new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
 
@@ -27,8 +30,13 @@ namespace WhereIsMyBikeBotApp.DataAccess
             return mongoClient;
         }
 
-        public static void SaveBotUserSessionData(BotUserSession data)
+        internal void SaveBotUserSessionData(BotUserSession data)
         {
+            if (String.IsNullOrEmpty(_connectionString))
+            {
+                Log.Warning("No Connection String given, ignore persistance");
+                return;
+            }
             var mongoClient = GetMongoClient();
             var mongoDB = mongoClient.GetDatabase("botsessions");
 
@@ -36,8 +44,13 @@ namespace WhereIsMyBikeBotApp.DataAccess
             colDataPoints.InsertOne(data);
         }
 
-        public static void UpdateBotUserSessionData(BotUserSession data)
+        internal void UpdateBotUserSessionData(BotUserSession data)
         {
+            if (String.IsNullOrEmpty(_connectionString))
+            {
+                Log.Warning("No Connection String given, ignore persistance");
+                return;
+            }
             var mongoClient = GetMongoClient();
             var mongoDB = mongoClient.GetDatabase("botsessions");
 
@@ -48,8 +61,13 @@ namespace WhereIsMyBikeBotApp.DataAccess
             colDataPoints.UpdateOne(filter, update);
         }
 
-        public static List<BotUserSession> GetBotUserSessionData()
+        internal List<BotUserSession> GetBotUserSessionData()
         {
+            if (String.IsNullOrEmpty(_connectionString))
+            {
+                Log.Warning("No Connection String given, ignore persistance");
+                return new List<BotUserSession>();
+            }
             var mongoClient = GetMongoClient();
             var mongoDB = mongoClient.GetDatabase("botsessions");
 

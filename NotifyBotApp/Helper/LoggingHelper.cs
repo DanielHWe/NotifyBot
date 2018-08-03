@@ -7,7 +7,7 @@ using System.Web;
 using Serilog;
 using Serilog.Formatting.Compact;
 
-namespace WhereIsMyBikeBotApp.Helper
+namespace NotifyBotApp.Helper
 {
     public static class LoggingHelper
     {
@@ -35,7 +35,7 @@ namespace WhereIsMyBikeBotApp.Helper
         private static LoggerConfiguration GetLoggerConfig()
         {
             return new LoggerConfiguration()
-                .MinimumLevel.Information()
+                .MinimumLevel.Debug()
                 .WriteToRollingFile();
         }
 

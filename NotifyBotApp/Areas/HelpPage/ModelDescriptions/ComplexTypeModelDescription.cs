@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace WhereIsMyBikeBotApp.Areas.HelpPage.ModelDescriptions
+namespace NotifyBotApp.Areas.HelpPage.ModelDescriptions
 {
     public class ComplexTypeModelDescription : ModelDescription
     {

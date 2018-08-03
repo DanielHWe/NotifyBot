@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace WhereIsMyBikeBotApp.Areas.HelpPage
+namespace NotifyBotApp.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

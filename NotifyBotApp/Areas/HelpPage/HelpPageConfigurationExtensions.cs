@@ -11,10 +11,10 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using WhereIsMyBikeBotApp.Areas.HelpPage.ModelDescriptions;
-using WhereIsMyBikeBotApp.Areas.HelpPage.Models;
+using NotifyBotApp.Areas.HelpPage.ModelDescriptions;
+using NotifyBotApp.Areas.HelpPage.Models;
 
-namespace WhereIsMyBikeBotApp.Areas.HelpPage
+namespace NotifyBotApp.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

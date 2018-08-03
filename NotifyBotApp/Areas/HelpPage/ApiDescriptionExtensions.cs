@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace WhereIsMyBikeBotApp.Areas.HelpPage
+namespace NotifyBotApp.Areas.HelpPage
 {
     public static class ApiDescriptionExtensions
     {

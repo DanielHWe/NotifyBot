@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json.Linq;
-using WhereIsMyBikeBotApp.Helper;
-using WhereIsMyBikeBotApp.Models;
+using NotifyBotApp.Helper;
+using NotifyBotApp.Models;
 
-namespace WhereIsMyBikeBotApp.Controllers
+namespace NotifyBotApp.Controllers
 {
+    [Authorize]
     public class LoggingController : Controller
     {
         // GET: Logging
@@ -28,15 +30,24 @@ namespace WhereIsMyBikeBotApp.Controllers
                     string line = null;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        JObject ob = JObject.Parse(line); 
-                        logFile.Lines.Add(new LogEntry()
+                        JObject ob = JObject.Parse(line);
+                        var logEntry = new LogEntry()
                         {   
                             Timestamp = ob["@t"]?.ToString(),
                             Message = ob["@mt"]?.ToString(),
                             Caller = ob["Caller"]?.ToString(),
                             Error = ob["@x"]?.ToString(),
                             Level = ob["@l"]?.ToString(),
-                        });
+                        };
+                        logFile.Lines.Add(logEntry);
+                        var matches = new Regex("\\{([a-zA-Z]+)\\}").Matches(logEntry.Message);
+                        foreach (Match match in matches)
+                        {
+                            if (ob[match.Groups[1].Value] != null)
+                            {
+                                logEntry.Message = logEntry.Message.Replace(match.Value, ob[match.Groups[1].Value].ToString());
+                            }
+                        }
                     }
                 }
 

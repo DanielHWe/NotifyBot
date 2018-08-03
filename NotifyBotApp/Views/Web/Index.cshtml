@@ -1,0 +1,32 @@
+﻿@model NotifyBotApp.Models.AlertMessage
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Message</h2>
+
+@using (Html.BeginForm())
+{
+    <p style="color: darkred;">
+        @Html.ValidationSummary()
+    </p>
+    <fieldset style="margin: 15px;">
+        <legend>Message</legend>
+
+        <div class="editor-label">
+            @Html.Label("Message")
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Message, new { @placeholder = "Message", style = "width: 250px" }) @Html.ValidationMessageFor(m => m.Message)
+        </div>
+        
+    </fieldset>
+
+    <div>
+        <input type="submit" value="Send" />
+    </div>
+
+
+}

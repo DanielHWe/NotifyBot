@@ -1,4 +1,4 @@
-namespace WhereIsMyBikeBotApp.Areas.HelpPage.ModelDescriptions
+namespace NotifyBotApp.Areas.HelpPage.ModelDescriptions
 {
     public class CollectionModelDescription : ModelDescription
     {

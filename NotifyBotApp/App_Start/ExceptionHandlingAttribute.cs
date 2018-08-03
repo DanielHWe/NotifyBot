@@ -4,9 +4,9 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Filters;
 using Serilog;
-using WhereIsMyBikeBotApp.Models;
+using NotifyBotApp.Models;
 
-namespace WhereIsMyBikeBotApp
+namespace NotifyBotApp
 {
     public class ExceptionHandlingAttribute : ExceptionFilterAttribute
     {
@@ -14,7 +14,7 @@ namespace WhereIsMyBikeBotApp
         {
             
             //Log Critical errors
-            Log.Warning("{0}: {1}", context.ActionContext.ControllerContext.ControllerDescriptor.ControllerName,context.Exception.Message);
+            Log.Warning(context.Exception, "OnException {controller}: {message}", context.ActionContext.ControllerContext.ControllerDescriptor.ControllerName,context.Exception.Message);
 
             throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
             {

@@ -7,29 +7,29 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Filters;
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Connector;
-using WhereIsMyBikeBotApp.Models;
+using NotifyBotApp.Models;
 using NotifyBot.Interfaces;
 using Serilog;
+using NotifyBotApp.Helper;
 
 
-namespace WhereIsMyBikeBotApp
+namespace NotifyBotApp
 {
-    [BotAuthentication(MicrosoftAppId = "45a896b5-386a-4311-9890-a178daab6766", 
-       MicrosoftAppPassword = "xxozEQLYMP8{eupZ8156#{%")]
+    [BotAuthentication(CredentialProviderType = typeof(MultiCredentialProvider))]
     public class MessagesController : ApiController
     {
-        public static String CurrentClientId { get; set; }
-        public static INotifyBotModule BotModule { get; set; }
+        public static String CurrentClientId { get; set; }        
 
 
         public MessagesController()
         {
-            Log.Debug("MessagesController created at");
+            Log.Debug("MessagesController created");
             AddCommandMessages();
         }
 
@@ -47,14 +47,17 @@ namespace WhereIsMyBikeBotApp
 
                 if (activity.Type == ActivityTypes.Message)
                 {
+                    IDialog<object> dialog;
                     if (NotificationManager.Add(activity))
                     {
-                        await Conversation.SendAsync(activity, () => BotModule.GetWelcomeDialogForNewClients());
+                        dialog = StartupHelper.Module.GetWelcomeDialogForNewClients();
                     }
                     else
                     {
-                        await Conversation.SendAsync(activity, () => BotModule.GetDefaultDialogForKnownClients());
+                        dialog = StartupHelper.Module.GetDefaultDialogForKnownClients();
                     }
+                    Log.Debug("Execute Bot dialog {type}", dialog.GetType().Name);
+                    await Conversation.SendAsync(activity, () => dialog);
                 }
                 else
                 {
@@ -160,7 +163,7 @@ namespace WhereIsMyBikeBotApp
                         {
                             try
                             {
-                                await NotificationManager.NotifyAsync(NotificationManager.LastMessage, null);
+                                await NotificationManager.NotifyAsync(NotificationManager.LastMessage);
                                 await botToUser.PostAsync("done");
                             }
                             catch (Exception ex)
@@ -175,7 +178,7 @@ namespace WhereIsMyBikeBotApp
                         {
                             try
                             {
-                                await NotificationManager.NotifyAsync(message.Text.Substring(7), null);
+                                await NotificationManager.NotifyAsync(message.Text.Substring(7));
                                 await botToUser.PostAsync("done");
                             }
                             catch (Exception ex)
@@ -191,7 +194,15 @@ namespace WhereIsMyBikeBotApp
                             var userText = NotificationManager.SetUserActive(message, false);
                             await botToUser.PostAsync(userText);
                         });
-                    
+
+                    try
+                    {
+                        StartupHelper.Module?.DoUpdateBotBuilderContainer(builder, StartupHelper.DbAccess);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "Error {type} during {bot}.DoUpdateBotBuilderContainer: {message}", ex.GetType().Name, StartupHelper.Module?.GetType().Name, ex.Message);
+                    }
                 });
             }
             catch (Exception ex)
@@ -212,5 +223,23 @@ namespace WhereIsMyBikeBotApp
         }
 
         #endregion
+    }
+
+    public class CustomAuthentication : BotAuthentication
+
+    {
+
+        public override Task OnActionExecutedAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
+
+        {
+            if (StartupHelper.Module!=null)
+            {
+                this.MicrosoftAppId = StartupHelper.Module.Settings.MicrosoftAppId;
+                this.MicrosoftAppPassword = StartupHelper.Module.Settings.MicrosoftAppPassword;
+            }
+            return base.OnActionExecutedAsync(actionExecutedContext, cancellationToken);
+
+        }
+
     }
 }

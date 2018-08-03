@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace WhereIsMyBikeBotApp.Areas.HelpPage.ModelDescriptions
+namespace NotifyBotApp.Areas.HelpPage.ModelDescriptions
 {
     public interface IModelDocumentationProvider
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using System.Threading;
@@ -12,9 +13,10 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
-using WhereIsMyBikeBotApp.DataAccess;
+using NotifyBotApp.DataAccess;
+using NotifyBotApp.Helper;
 
-namespace WhereIsMyBikeBotApp.Models
+namespace NotifyBotApp.Models
 {
     internal class NotificationManager
     {
@@ -28,7 +30,7 @@ namespace WhereIsMyBikeBotApp.Models
                 //var table = GetCloudTable();
                 //TableQuery<BotUserSession> query = new TableQuery<BotUserSession>();
 
-                foreach (BotUserSession entity in DBAccess.GetBotUserSessionData())
+                foreach (BotUserSession entity in ((DBAccess)StartupHelper.DbAccess).GetBotUserSessionData())
                 {
                     var starter = new NotificationManager();
                     starter.Session = entity;
@@ -92,7 +94,7 @@ namespace WhereIsMyBikeBotApp.Models
             user.active = newActiveValue;
             try
             {
-                DBAccess.SaveBotUserSessionData(user);
+                ((DBAccess)StartupHelper.DbAccess).SaveBotUserSessionData(user);
                 return newActiveValue ? "Du hast den Cannal abboniert" : "Du wirst nicht mehr benachtichtigt";
             }
             catch (Exception ex)
@@ -130,7 +132,7 @@ namespace WhereIsMyBikeBotApp.Models
             Log.Debug("Add notify Recipt " + activity.Recipient.Id + " From " + activity.From.Id);
             try
             {
-                DBAccess.SaveBotUserSessionData(conversationStarter.Session);                
+                ((DBAccess)StartupHelper.DbAccess).SaveBotUserSessionData(conversationStarter.Session);                
             } catch (Exception ex)
             {
                 Log.Error(ex, "Error Store: " + ex.Message + " - " + ex.StackTrace);
@@ -185,9 +187,10 @@ namespace WhereIsMyBikeBotApp.Models
             resultBuilder.Append("  -> active: ").Append(user.active).AppendLine();
         }
 
-        public static async Task NotifyAsync(String text, JObject result)
+        public static async Task<AlertMessageResult> NotifyAsync(String text)
         {
             LastMessage = text;
+            var result = new AlertMessageResult();
             int i = 0;
             foreach(var starter in _starter.Values)
             {
@@ -195,23 +198,25 @@ namespace WhereIsMyBikeBotApp.Models
                 {
                     if (!starter.Session.active)
                     {
-                        if (result!=null) result.Add("Ignore Notify" + i, starter.Session.toId);
+                        result.Add("Ignore Notify" + i, starter.Session.toId);
                         Log.Debug("Ignore Notify" + i + " " + starter.Session.toId);
                     }
 
                     await starter.NotifyThisAsync(text);
-                    if (result != null) result.Add("Notify"+i, starter.Session.toId);
+                   result.Add("Notify"+i, starter.Session.toId);
                 } catch (Exception ex)
                 {
                     
                     Log.Error(ex, "Error notify: " +  ex.Message);
-                    if (result != null) result.Add("Error_notify_" + i, ex.Message);
+                    result.Add("Error_notify_" + i, ex.Message);
                 }
                 finally
                 {
                     i++;
                 }
             }
+
+            return result;
         }
 
         public async Task NotifyThisAsync(String text)
@@ -243,7 +248,15 @@ namespace WhereIsMyBikeBotApp.Models
             message.Locale = "de-de";
             await connector.Conversations.SendToConversationAsync((Activity)message);
             Log.Debug("Notify done: " + Session.toId + ": " + Session.toName);
-        }        
+        }
+
+        public static IEnumerable<BotUserSession> GetAllUsers()
+        {
+            foreach (var manager in _starter)
+            {
+                yield return manager.Value.Session;
+            }
+        }
     }
 
     [Serializable]
